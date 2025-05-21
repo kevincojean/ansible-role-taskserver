@@ -1,12 +1,14 @@
 ---
 
 - name: Install Taskd prerequisites with apt
+  become: true
   apt:
     name: "{{ taskd_prerequisites }}"
     state: present
     update_cache: true
 
 - name: Install certtool with apt
+  become: true
   apt:
     name: gnutls-bin
     state: present
