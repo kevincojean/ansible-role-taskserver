@@ -26,6 +26,64 @@ None
 Take a look at [defaults/main.yml](defaults/main.yml) for documentation on the
 available variables.
 
+### Example usage
+
+**Main playbook**
+
+```yaml
+- hosts: reverse-proxy-01
+  vars:
+    role_path: "{{ playbook_dir }}/roles/taskwarrior-server"
+    taskd_organizations:
+      - First Last
+    taskd_users:
+      - name: "First Last"
+        organization: First Last
+  tasks:
+    - include_vars: "{{ envs_dir }}/{{ platform }}/host_vars/taskwarrior-server.yml"
+    - import_tasks: "{{ role_path }}/tasks/provision/main.yml"
+```
+
+**provision/main.yml**
+
+```yaml
+- name: Execute taskwarrior-server role
+  include_role:
+    name: 'Taskwarrior server (taskd)'
+```
+
+**host_vars/taskwarrior-server.yml**
+
+```yaml
+taskd_version: 1.1.0
+taskd_tarball_url: "https://github.com/GothenburgBitFactory/taskserver/releases/download/v1.1.0/taskd-1.1.0.tar.gz"
+taskd_user: taskd
+taskd_group: taskd
+taskd_port: 53589
+taskd_download_location: "{{ ansible_env.HOME }}/taskd"
+taskd_install_location: ~/.local/bin/taskd
+taskd_data_location: ~/.cache/taskd
+taskd_user_conf_location: ~/.config/taskd/users
+taskd_user_cert_location: ~/.config/taskd/users/certs
+
+# Using self signed certificates
+taskd_selfsigned: true
+taskd_selfsigned_bits: 4096
+# Common Name for your certificate (MUST match hostname!)
+taskd_selfsigned_cn: "{{ ansible_hostname }}"
+taskd_selfsigned_expiration_days: 365
+taskd_selfsigned_organization: First Name
+taskd_selfsigned_country: FR
+taskd_selfsigned_state: Bretagne
+taskd_selfsigned_locality: Brest
+
+taskd_selfsigned_clients_download: true
+taskd_selfsigned_clients_download_dir: ~/.taskd/
+taskd_taskwarrior_config: true
+taskd_taskwarrior_config_path: ~/.taskd/taskd.rc
+taskd_android_config: true
+```
+
 ### Default usage
 
 For default usage of this role you only need to define the following, for more advanced usage look at the [Advanced usage](#advanced-usage) section:
