@@ -7,6 +7,7 @@
   changed_when: false
 
 - name: Create install directory
+  become: true
   file:
     path: "{{ taskd_install_location }}"
     owner: "{{ taskd_user }}"
@@ -15,6 +16,7 @@
     state: directory
 
 - name: Untar taskd-server tarball
+  become: true
   unarchive:
     src: "/tmp/taskd.tar.gz"
     dest: "{{ taskd_install_location }}"
@@ -39,6 +41,7 @@
       }}/src/CMakeFiles/taskd_executable.dir/wcwidth6.cpp.o"
 
 - name: Make install taskd-server
+  become: true
   command: make install
   args:
     chdir: "{{ taskd_install_location }}"
