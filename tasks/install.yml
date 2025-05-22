@@ -28,12 +28,14 @@
       - '--strip-components=1'
 
 - name: Cmake taskd-server
+  become: true
   shell: cmake -DCMAKE_BUILD_TYPE=release .
   args:
     chdir: "{{ taskd_install_location }}"
     creates: "{{ taskd_install_location }}/Makefile"
 
 - name: Make taskd-server
+  become: true
   command: make
   args:
     chdir: "{{ taskd_install_location }}"

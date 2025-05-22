@@ -15,6 +15,7 @@
 
 - name: Generate certificates
   # when: _result is failed or _result is skipped or not _result.valid_at.now | bool
+  become: true
   block:
     - name: Copy selfsigning vars file to location
       template:

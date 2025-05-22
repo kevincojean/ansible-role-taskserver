@@ -9,6 +9,7 @@
   delegate_to: localhost
 
 - name: Download client certificates
+  become: true
   block:
     - name: Download user client certs
       fetch:
@@ -32,6 +33,7 @@
   when: taskd_selfsigned_clients_download | bool
 
 - name: Create taskwarrior config
+  become: true
   template:
     src: taskwarrior.rc.j2
     dest: "{{ taskd_taskwarrior_config_path }}"
@@ -42,6 +44,7 @@
   delegate_to: localhost
 
 - name: Create android app config
+  become: true
   template:
     src: taskwarrior.android.rc.j2
     dest: "{{ taskd_taskwarrior_config_path }}.android"

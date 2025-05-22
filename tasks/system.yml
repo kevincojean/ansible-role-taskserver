@@ -12,4 +12,27 @@
     name: "{{ taskd_user }}"
     group: "{{ taskd_group }}"
     state: present
-    createhome: false
+    createhome: true
+
+- name: Create directories in home dir
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ taskd_install_location }}"
+    - "{{ taskd_data_location }}"
+    - "{{ taskd_data_certs_location }}"
+    - "{{ taskd_user_conf_location }}"
+    - "{{ taskd_user_cert_location }}"
+    - "/home/{{ taskd_user }}/.config"
+
+- name: Change ownership of taskd directory
+  become: true
+  file:
+    path: "/home/{{ taskd_user }}"
+    owner: taskd
+    group: taskd
+    state: directory
+    recurse: yes

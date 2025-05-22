@@ -2,7 +2,7 @@
 Description=Run taskwarrior synchronization
 
 [Service]
-User={{ taskd_taskwarrior_user }}
+User={{ taskd_user }}
 Type=oneshot
 ExecStart=/usr/bin/task synchronize
 

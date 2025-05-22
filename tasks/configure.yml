@@ -1,6 +1,7 @@
 ---
 
 - name: Create data folder
+  become: true
   file:
     path: "{{ taskd_data_location }}"
     owner: "{{ taskd_user }}"
@@ -10,22 +11,32 @@
   notify: taskd restart service
 
 - name: Set permanent TASKDDATA variable
+  become: true
   copy:
     content: "export TASKDDATA={{ taskd_data_location }}"
     dest: /etc/profile.d/taskd.sh
   notify: taskd restart service
 
 - name: Init datafolder
+  become: true
   command: "taskd init"
   args:
     creates: "{{ taskd_data_location }}/config"
   environment:
     TASKDDATA: "{{ taskd_data_location }}"
 
+- name: Taskd configure server
+  become: true
+  command: "taskd config server localhost {{ taskd_port }}"
+  environment:
+    TASKDDATA: "{{ taskd_data_location }}"
+
 - name: Create config file for taskd
+  become: true
   template:
     src: taskd_config.j2
     dest: "{{ taskd_data_location }}/config"
     owner: "{{ taskd_user }}"
     group: "{{ taskd_group }}"
   notify: taskd restart service
+
