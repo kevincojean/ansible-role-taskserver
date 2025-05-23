@@ -19,7 +19,23 @@ and added more functionality, fixed bugs, etc.
 
 ## Requirements
 
-None
+Non
+
+## Tests
+
+This role has been tested with :
+
+```
+ansible [core 2.17.9]
+  config file = None
+  configured module search path = ['/home/.../.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/.../.local/lib/python3.10/site-packages/ansible
+  ansible collection location = /home/.../.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/.../.local/bin/ansible
+  python version = 3.10.12 (main, Feb  4 2025, 14:57:36) [GCC 11.4.0] (/usr/bin/python3)
+  jinja version = 3.1.4
+  libyaml = True
+```
 
 ## Role Variables
 

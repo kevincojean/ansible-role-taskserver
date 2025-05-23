@@ -1,6 +1,8 @@
 ---
-
 - name: Ensure download directory exists
+  become: true
+  vars:
+    ansible_become_password: "{{ custom_become_pass }}"
   file:
     path: "{{ taskd_selfsigned_clients_download_dir }}"
     state: directory
@@ -9,23 +11,25 @@
   delegate_to: localhost
 
 - name: Download client certificates
-  become: true
+  vars:
+    ansible_become_password: "{{ custom_become_pass }}"
   block:
     - name: Download user client certs
+      become: true
       fetch:
-        src: "{{ taskd_user_cert_location }}/{{ item.name|replace(' ', '_')
-                }}.cert.pem"
+        src: "{{ taskd_user_cert_location }}/{{ item.name|replace(' ', '_') }}.cert.pem"
         dest: "{{ taskd_selfsigned_clients_download_dir }}/"
         flat: true
       loop: "{{ taskd_users }}"
     - name: Download user client keys
+      become: true
       fetch:
-        src: "{{ taskd_user_cert_location }}/{{ item.name|replace(' ', '_')
-                }}.key.pem"
+        src: "{{ taskd_user_cert_location }}/{{ item.name|replace(' ', '_') }}.key.pem"
         dest: "{{ taskd_selfsigned_clients_download_dir }}/"
         flat: true
       loop: "{{ taskd_users }}"
     - name: Download CA certificate
+      become: true
       fetch:
         src: "{{ taskd_data_location }}/certs/ca.cert.pem"
         dest: "{{ taskd_selfsigned_clients_download_dir }}/"
@@ -34,6 +38,8 @@
 
 - name: Create taskwarrior config
   become: true
+  vars:
+    ansible_become_password: "{{ custom_become_pass }}"
   template:
     src: taskwarrior.rc.j2
     dest: "{{ taskd_taskwarrior_config_path }}"
@@ -45,6 +51,8 @@
 
 - name: Create android app config
   become: true
+  vars:
+    ansible_become_password: "{{ custom_become_pass }}"
   template:
     src: taskwarrior.android.rc.j2
     dest: "{{ taskd_taskwarrior_config_path }}.android"

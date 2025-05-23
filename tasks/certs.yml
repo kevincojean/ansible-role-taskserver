@@ -6,6 +6,7 @@
   register: _result
 
 - name: Get CA certificate info
+  become: true
   openssl_certificate_info:
     path: "{{ taskd_ca_cert }}"
     valid_at:
