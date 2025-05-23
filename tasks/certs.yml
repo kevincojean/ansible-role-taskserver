@@ -15,8 +15,8 @@
   when: _result.stat.exists | bool
 
 - name: Generate certificates
-  # when: _result is failed or _result is skipped or not _result.valid_at.now | bool
-  become: true
+  when: _result is failed or _result is skipped or not _result.valid_at.now | bool
+  # become: true
   block:
     - name: Copy selfsigning vars file to location
       template:
@@ -59,7 +59,7 @@
       notify: taskd restart service
 
     - name: Run generate client cert script
-      shell: "./generate.client {{ item.name|replace(' ', '_') }}"
+      shell: "./generate.client {{ item|replace(' ', '_') }}"
       args:
         chdir: "{{ taskd_install_location }}/pki/"
       register: result
@@ -76,9 +76,9 @@
     - name: Move generated user certs
       command: >-
         mv
-          {{ taskd_install_location }}/pki/{{ item.name|replace(' ', '_')
+          {{ taskd_install_location }}/pki/{{ item|replace(' ', '_')
             }}.cert.pem
-          {{ taskd_install_location }}/pki/{{ item.name|replace(' ', '_')
+          {{ taskd_install_location }}/pki/{{ item|replace(' ', '_')
             }}.key.pem
           {{ taskd_user_cert_location }}/
       when: result.results[index] is changed

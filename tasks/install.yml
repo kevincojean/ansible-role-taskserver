@@ -27,6 +27,18 @@
     extra_opts:
       - '--strip-components=1'
 
+- name: Cmake cleanup
+  become: true
+  shell: make clean
+  args:
+    chdir: "{{ taskd_install_location }}"
+
+- name: Ensure CMakeCache.txt is absent
+  become: true
+  file:
+    path: "{{ taskd_install_location }}/CMakeCache.txt"
+    state: absent
+
 - name: Cmake taskd-server
   become: true
   shell: cmake -DCMAKE_BUILD_TYPE=release .

@@ -2,7 +2,7 @@
 
 - include_tasks: variables.yml
 
-# - include_tasks: dependencies/{{ ansible_os_family }}.yml
+- include_tasks: dependencies/{{ ansible_os_family }}.yml
 
 # - include_tasks: system.yml
 
@@ -10,11 +10,11 @@
 
 # - include_tasks: service.yml
 
-# - include_tasks: configure.yml
+- include_tasks: configure.yml
 
 - include_tasks: users.yml
 
-# - include_tasks: certs.yml
-#   when: taskd_selfsigned | bool
+- include_tasks: certs.yml
+  when: taskd_selfsigned | bool
 
 - include_tasks: clients.yml

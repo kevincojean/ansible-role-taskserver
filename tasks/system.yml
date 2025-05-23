@@ -32,7 +32,7 @@
   become: true
   file:
     path: "/home/{{ taskd_user }}"
-    owner: taskd
-    group: taskd
+    owner: "{{ taskd_user }}"
+    group: "{{ taskd_group }}"
     state: directory
     recurse: yes
