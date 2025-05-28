@@ -12,7 +12,7 @@
   delegate_to: localhost
 
 # - name: Download client certificates
-#   vars:
+#   - vars:
 #     ansible_become_password: "{{ custom_become_pass }}"
 #     ansible_become_pass: "{{ custom_become_pass }}"
 #   block:

@@ -4,11 +4,11 @@
 
 - include_tasks: dependencies/{{ ansible_os_family }}.yml
 
-# - include_tasks: system.yml
+- include_tasks: system.yml
 
-# - include_tasks: install.yml
+- include_tasks: install.yml
 
-# - include_tasks: service.yml
+- include_tasks: service.yml
 
 - include_tasks: configure.yml
 
